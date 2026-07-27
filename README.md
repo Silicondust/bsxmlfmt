@@ -1,7 +1,7 @@
 # bsxmlfmt
 **XML formatter for BrightScript that preserves multi-line formatting**
 
-Removes unnecessary whitespace within *existing* lines.
+Removes unnecessary whitespace within *existing* lines while preserving the original layout and minimizing diffs.
 
 Indentation follows the BrightScript convention of 4-space tabs.
 
