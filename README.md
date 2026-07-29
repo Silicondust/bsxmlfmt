@@ -5,11 +5,12 @@ Removes unnecessary whitespace within *existing* lines while preserving the orig
 
 Indentation can be set to 'tab' or a specified number of spaces.
 
-Blank lines are removed.
+Empty lines are removed.
 
 **Usage examples:**
 
 php bsxmlfmt.php --indent 4 \<filename\>
+
 php bsxmlfmt.php --indent tab \<filename\>
 
 **To update all XML files:**
