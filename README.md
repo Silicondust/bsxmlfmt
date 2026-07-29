@@ -7,7 +7,9 @@ Doesn't split existing lines into multiple lines. For example comments on the sa
 
 Doesn't combine existing lines into one line. For example any existing one-attribute-per-line formatting is preserved.
 
-Indentation can be set to 'tab' or a specified number of spaces.
+Fixes indentation. Indentation can be set to 'tab' or a specified number of spaces.
+
+Fixes mid-line whitespace. Removes end-of-line whitespace.
 
 Empty lines are removed.
 
