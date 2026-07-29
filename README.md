@@ -3,6 +3,10 @@
 
 Removes unnecessary whitespace within *existing* lines while preserving the original layout and minimizing diffs.
 
+Doesn't split existing lines into multiple lines. For example comments on the same line are preserved.
+
+Doesn't combine existing lines into one line. For example any existing one-attribute-per-line formatting is preserved.
+
 Indentation can be set to 'tab' or a specified number of spaces.
 
 Empty lines are removed.
