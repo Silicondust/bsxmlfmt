@@ -3,14 +3,15 @@
 
 Removes unnecessary whitespace within *existing* lines while preserving the original layout and minimizing diffs.
 
-Indentation follows the BrightScript convention of 4-space tabs.
+Indentation can be set to 'tab' or a specified number of spaces.
 
 Blank lines are removed.
 
-**Usage:**
+**Usage examples:**
 
-php bsxmlfmt.php \<filename\>
+php bsxmlfmt.php --indent 4 \<filename\>
+php bsxmlfmt.php --indent tab \<filename\>
 
 **To update all XML files:**
 
-find . -name \\*.xml -exec php bsxmlfmt.php {} \\;
+find . -name \\*.xml -exec php bsxmlfmt.php --indent 4 {} \\;

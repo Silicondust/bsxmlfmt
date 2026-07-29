@@ -265,9 +265,9 @@ function xmllint_lex($contents)
 }
 
 /*
- * Pretty-printed render: 4 spaces per element-nesting level, no other inserted whitespace beyond the syntactically required space before each attribute, and a bare LF per 'newline' token
+ * Pretty-printed render: one $indentUnit per element-nesting level, no other inserted whitespace beyond the syntactically required space before each attribute, and a bare LF per 'newline' token
  */
-function xmllint_render($tokens)
+function xmllint_render($tokens, $indentUnit)
 {
     $out = '';
     $lastType = 'newline';
@@ -282,7 +282,7 @@ function xmllint_render($tokens)
 
         if ($t['type'] !== 'newline' && $lastType === 'newline') {
             $indentDepth = ($inTag && $t['type'] !== 'tag_end') ? $depth + 1 : $depth;
-            $out .= str_repeat('    ', $indentDepth);
+            $out .= str_repeat($indentUnit, $indentDepth);
         }
 
         switch ($t['type']) {
@@ -319,12 +319,46 @@ function xmllint_render($tokens)
     return $out;
 }
 
-if ($argc !== 2) {
-    fwrite(STDERR, "usage: php bsxmlfmt.php <filename>\n");
+function bsxmlfmt_usage()
+{
+    fwrite(STDERR, "usage: php bsxmlfmt.php [--indent <n|tab>] <filename>\n");
     exit(1);
 }
 
-$filename = $argv[1];
+$filename = null;
+$indentArg = 'tab';
+
+$args = array_slice($argv, 1);
+$argCount = count($args);
+$i = 0;
+while ($i < $argCount) {
+    if ($args[$i] === '--indent') {
+        if ($i + 1 >= $argCount) {
+            bsxmlfmt_usage();
+        }
+        $indentArg = $args[$i + 1];
+        $i += 2;
+        continue;
+    }
+    if ($filename !== null) {
+        bsxmlfmt_usage();
+    }
+    $filename = $args[$i];
+    $i++;
+}
+
+if ($filename === null) {
+    bsxmlfmt_usage();
+}
+
+if ($indentArg === 'tab') {
+    $indentUnit = "\t";
+} elseif (ctype_digit($indentArg)) {
+    $indentUnit = str_repeat(' ', (int) $indentArg);
+} else {
+    fwrite(STDERR, "bsxmlfmt: --indent must be 'tab' or a number of spaces, got: $indentArg\n");
+    exit(1);
+}
 
 if (!is_file($filename)) {
     fwrite(STDERR, "bsxmlfmt: no such file: $filename\n");
@@ -338,7 +372,7 @@ if ($contents === false) {
 }
 
 $tokens = xmllint_lex($contents);
-$result = xmllint_render($tokens);
+$result = xmllint_render($tokens, $indentUnit);
 
 if (file_put_contents($filename, $result) === false) {
     fwrite(STDERR, "bsxmlfmt: unable to write file: $filename\n");
