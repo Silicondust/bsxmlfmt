@@ -1,11 +1,13 @@
 # bsxmlfmt
-**XML formatter for BrightScript that preserves multi-line formatting**
+**XML formatter that preserves multi-line formatting**
 
 Removes unnecessary whitespace within *existing* lines while preserving the original layout and minimizing diffs.
 
 Indentation can be set to 'tab' or a specified number of spaces.
 
 Empty lines are removed.
+
+Originally written for Roku BrightScript XML files. Supports all XML files.
 
 **Usage examples:**
 
